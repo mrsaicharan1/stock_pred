@@ -20,7 +20,7 @@ df.fillna(-99999,inplace=True)
 
 # print(df.tail())
 
-days = int(math.ceil(0.1*len(df)))
+days = int(math.ceil(0.01*len(df)))
 
 df['label'] = df[forecast_col].shift(-days)
 
@@ -30,9 +30,10 @@ print(df)
 
 X = np.array(df.drop(['label'],1))
 X = preprocessing.scale(X)
-X_lately = X[days:]
+X_lately = X[-days:]
+X = X[:-days]
 
-y = np.array(df['label'])
+y = np.array(df['label'][:-days])
 
 X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=0.2)
 
