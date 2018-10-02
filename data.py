@@ -30,13 +30,19 @@ print(df)
 
 X = np.array(df.drop(['label'],1))
 X = preprocessing.scale(X)
+X_lately = X[days:]
+
 y = np.array(df['label'])
 
 X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=0.2)
 
-clf = LinearRegression()
+clf = LinearRegression(n_jobs=-1)
 
 clf.fit(X_train,y_train)
 accuracy = clf.score(X_test, y_test)
 
 print(accuracy)
+
+
+predicted_set = clf.predict(X_lately)
+print(predicted_set, accuracy, days)
